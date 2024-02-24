@@ -1,0 +1,21 @@
+<%- include("includes/head.ejs") %>
+
+<body>
+  <%- include("includes/navbar.ejs") %>
+  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mx-auto p-5 ">
+    <% for(let product of data) { %>
+     
+          <div class="card col"  >
+            <img src="<%= product.image %>" class="card-img-top" alt="image" style="height:20rem">
+            <div class="card-body">
+              <h5 class="card-title"><%= product.title %></h5>
+              <a href="#" class="btn btn-primary">See More</a>
+            </div>
+          </div>
+      
+    <% } %>
+    </div>
+ 
+      <%- include("includes/footer.ejs") %>
+
+</body>
