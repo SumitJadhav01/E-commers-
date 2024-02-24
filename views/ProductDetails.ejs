@@ -1,13 +1,40 @@
 <%- include("includes/head.ejs") %>
 
 <body>
-    <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
+  <%- include("includes/navbar.ejs") %>
+    <form action="/Cart" method="post">
+  <div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="<%= data.decs %>" class="img-fluid rounded-start" alt="img">
+      </div>
+      <div class="col-md-8">
         <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <h5 class="card-title"><%= data.title %></h5>
+          <p class="card-text"><%= data.image %></p>
+          <p class="card-text"><b><%= data.price %></b></p>
+          <p class="card-text">product Availability : <%= data.avb %></p>
+          <input type="text">
+          <button type="submit" class="btn btn-primary" value="submit">Add to cart</button>
+        </form>
+          <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
         </div>
       </div>
+    </div>
+  </div>
+      <%- include("includes/footer.ejs") %>
+
 </body>
- 
+<!--  
+
+<form method="post" action="/user/post">
+  <label for="fname">Enter username:</label><br>
+  <input type="text" id="fname" name="username"><br>
+  <label for="fname">Enter userid:</label><br>
+  <input type="text" id="fname" name="userid"><br>
+  <label for="lname">Enter email:</label><br>
+  <input type="email" id="lname" name="email"><br><br>
+  <label for="lname">Enter password:</label><br>
+  <input type="password" id="lname" name="password"><br><br>
+  <input type="submit" value="Submit">
+</form>  -->
