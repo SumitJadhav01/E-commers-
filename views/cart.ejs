@@ -2,6 +2,7 @@
 <body>
   <%- include("includes/navbar.ejs") %>
 
+<h3>Your Cart </h3>
   <table class="table">
     <thead>
       <tr>
@@ -9,19 +10,40 @@
         <th scope="col">Amount</th>
         <th scope="col">Total</th>
         <th scope="col">product ID</th>
+        <th scope="col">buy now</th>
+        <th scope="col">Remove</th>
       </tr>
     </thead>
     <tbody>
+      <% for(let product of data) { %>
       <tr>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
-      </tr>
+        <td><%= product.product %></td>
+        <td><%= product.Amount %></td>
+        <td><%= product.Total %></td>
+        <td><%= product.productID %></td>
+           <td>
+            <form method="post" action="/cart/<%= product.productID %>?_method=DELETE">
+              <button type="submit" class="btn btn-primary">Remove</button>
+            </form>
+          </tb>
+         <td>
+          <form method="post" action="/product/<%= product.productID %>/buynow">
+            <input type="hidden" name="title" value="<%= product.product %>">
+            <input type="hidden" name="Amount" value="<%= product.Amount %>">
+            <input type="hidden" name="productID" value="<%= product.productID %>">
+            <button type="submit" class="btn btn-primary">Buy Now</button>
+          </form>
+          </tb>
+       </tr>
       
-      
+      <% } %>
     </tbody>
+
   </table>
+<form action="/orderhistory">
+  <button type="submit" class="btn btn-primary mx-auto p-2">checkout</button>
+</form>
+
 <%- include("includes/footer.ejs") %>
 
 </body>

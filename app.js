@@ -4,7 +4,7 @@ const path = require("path");
 const ejsmate=require("ejs-mate");
 const mysql =require ("mysql2");
 const { title } = require("process");
-
+const methodOverride= require(`method-override`)
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -13,28 +13,6 @@ const connection = mysql.createConnection({
     password:'@Sumit01'
   });
 
-// let q = "insert into data (id,usernmae,name) values(?,?,?,?)";
-// let user=["123","123_newuser","datad"]
-
-//   try{
-//     connection.query(q , data,(err,result)=>{
-//         if (err) throw err;
-//         console.log(result);
-//   })
-// }catch(err){
-//     console.log(err);
-// }
-
-
-//   try{
-//     connection.query("select * from  productCategory",(err,result)=>{
-//         if (err) throw err;
-//         console.log(result);
-//   })
-// }catch(err){
-//     console.log(err);
-//}
-// connection.end();
 
 app.use(express.urlencoded({extended:true}));
 app.use (express.static(path.join(__dirname,"public")));
@@ -43,7 +21,7 @@ app.set("views",path.join(__dirname,"/views"));
 app.engine('ejs',ejsmate);
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
-
+app.use(methodOverride('_method'))
 
 app.use((req,res,next)=>{
     req.time = new Date(Date.now());
@@ -52,13 +30,12 @@ app.use((req,res,next)=>{
 })
 
 //Category
-app.get("/",(req,res)=>{
+app.get("/Category",(req,res)=>{
 let q =`select * from  productCategory`;
   try{
     connection.query(q ,(err,result)=>{
         if (err) throw err;
         let data =result;
-        console.log(result);
         res.render("Category.ejs",{data})
   });
 }catch(err){
@@ -75,17 +52,15 @@ try{
     connection.query(q ,(err,result)=>{
         if (err) throw err;
         let data =result;
-        // console.log(result);
         res.render("product.ejs",{data})
   });
 }catch(err){
     console.log(err);
     res.send("Some error occured");
 }
-    // res.render("product.ejs",{data})
-
- 
 });
+
+//ProductDetails
 app.get("/ProductDetails/:id",(req,res)=>{
     let {id}=req.params;
     let q =`select * from  products where id= '${id}'`;
@@ -100,8 +75,42 @@ app.get("/ProductDetails/:id",(req,res)=>{
         console.log(err);
         res.send("Some error occured");
     }
-   
 });
+
+
+app.delete ("/cart/:id",(req,res)=>{
+    let {id}=req.params;
+    console.log(id);
+      let q = `DELETE from addcart where productID ='${id}'`;
+  try{
+    connection.query(q ,(err,result)=>{
+        if (err) throw err;
+        console.log(result);
+        res.redirect("/cart");
+  });
+}catch(err){
+    console.log(err);
+    res.send("Some error occured");
+}
+});
+
+
+app.get ("/cart",(req,res)=>{
+    let q =`select * from  addcart`;
+  try{
+    connection.query(q ,(err,result)=>{
+        if (err) throw err;
+        let data =result;
+        // console.log(data);
+        res.render("cart.ejs",{data})
+  });
+}catch(err){
+    console.log(err);
+    res.send("Some error occured");
+}
+});
+
+
 app.post("/add-to-Cart",(req,res)=>{
     let {title , Amount, productID}=req.body;
     console.log(title , Amount, productID);
@@ -110,8 +119,8 @@ app.post("/add-to-Cart",(req,res)=>{
     try {
         connection.query(q, val, (err, result) => {
             if (err) throw err;
-            console.log(result)
-            res.redirect("/");
+            // console.log(result)
+            res.redirect("/Category");
         })
     } catch (err) {
         {
@@ -119,16 +128,61 @@ app.post("/add-to-Cart",(req,res)=>{
             res.send(err);
         }
     }
+});
 
-    res.render("cart")
+
+app.post("/product/:id/buynow",(req,res)=>{
+    let {title , Amount, productID}=req.body;
+    console.log(title , Amount, productID);
+        let q = "insert into buynow (product,Total,productID) values (?,?,?)";
+    let val = [title , Amount, productID];
+    try {
+        connection.query(q, val, (err, result) => {
+            if (err) throw err;
+             console.log(result);
+            res.redirect("/cart");
+        })
+    } catch (err) {
+        {
+            res.send("error");
+            res.send(err);
+        }
+    }
+});
+
+
+app.get ("/orderhistory",(req,res)=>{
+    let q =`select * from  buynow`;
+  try{
+    connection.query(q ,(err,result)=>{
+        if (err) throw err;
+        let data =result;
+        // console.log(data);
+        res.render("OrderDetails.ejs",{data})
+  });
+}catch(err){
+    console.log(err);
+    res.send("Some error occured");
+}
+});
+
  
+app.delete ("/order/:id",(req,res)=>{
+    let {id}=req.params;
+    console.log(id);
+      let q = `DELETE from buynow where productID ='${id}'`;
+  try{
+    connection.query(q ,(err,result)=>{
+        if (err) throw err;
+        console.log(result);
+        res.redirect("/orderhistory");
+  });
+}catch(err){
+    console.log(err);
+    res.send("Some error occured");
+}
 });
-app.get("/OrderPlacement",(req,res)=>{
-    res.render("OrderPlacement")
-});
-app.get("/OrderHistory",(req,res)=>{
-    res.render("OrderHistory.ejs")
-});
+
 app.get("/OrderDetails",(req,res)=>{
     res.render("OrderDetails.ejs")
 });
@@ -138,76 +192,6 @@ app.get("/register",(req,res)=>{
 app.get("/login",(req,res)=>{
     res.render("login.ejs")
 });
-
-
-
-
-
-// app.post("/user/post", (req, res) => {
-//     let { username, password, email, userid } = req.body;
-//     let q = "insert into user (userid,username,email,password) values (?,?,?,?)";
-//     let val = [userid, username, email, password];
-//     try {
-//         connection.query(q, val, (err, result) => {
-//             if (err) throw err;
-//             res.redirect("/user");
-//         })
-//     } catch (err) {
-//         {
-//             res.send("error");
-//             res.send(err);
-//         }
-//     }
-// });
-// app.get("/user/:id/delete", (req, res) => {
-//     let { id } = req.params;
-//     res.render("delete", { id });
-// });
-
-// app.delete("/user/:id", (req, res) => {
-//     let { id } = req.params;
-//     let pass = req.body.password;
-//     let eml = req.body.email;
-//     let q1 = `select * from user where userid='${id}'`;
-//     try {
-//         connection.query(q1, (err, result) => {
-//             if (err) throw err;
-//             if ((pass !== result[0].password) && (eml !== result[0].email)) {
-//                 res.send("wrong password & email");
-//             } else {
-//                 let q = `DELETE from user where userid='${id}'`;
-//                 connection.query(q, (err, result) => {
-//                     res.redirect("/user");
-//                 });
-//             }
-//         });
-//     } catch (err) {
-//         {
-//             res.send("error");
-//             res.send(err);
-//         }
-//     }
-// });
-
-
-
-
-
-
-
-
-
-
-
-// app.get("/rolldice",(req,res)=>{
-//     let num = [1,2,3,4,,6,7,7];
-//     res.render("rollDice",{num})
-// })
-// app.get("/home/:id",(req,res)=>{
-//     console.log(req.params)
-//     let str=(req.params)
-// res.send(`wellcome ${str.id}`)
-// })
 
 app.listen(8080,()=>{
     console.log(`start server...;`)
