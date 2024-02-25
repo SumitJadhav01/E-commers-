@@ -77,7 +77,7 @@ app.get("/ProductDetails/:id",(req,res)=>{
     }
 });
 
-
+//delete cart item
 app.delete ("/cart/:id",(req,res)=>{
     let {id}=req.params;
     console.log(id);
@@ -94,7 +94,7 @@ app.delete ("/cart/:id",(req,res)=>{
 }
 });
 
-
+//cart list
 app.get ("/cart",(req,res)=>{
     let q =`select * from  addcart`;
   try{
@@ -110,7 +110,7 @@ app.get ("/cart",(req,res)=>{
 }
 });
 
-
+//add itme to cart
 app.post("/add-to-Cart",(req,res)=>{
     let {title , Amount, productID}=req.body;
     console.log(title , Amount, productID);
@@ -130,7 +130,7 @@ app.post("/add-to-Cart",(req,res)=>{
     }
 });
 
-
+//buynow
 app.post("/product/:id/buynow",(req,res)=>{
     let {title , Amount, productID}=req.body;
     console.log(title , Amount, productID);
@@ -150,7 +150,7 @@ app.post("/product/:id/buynow",(req,res)=>{
     }
 });
 
-
+//buynow product details
 app.get ("/orderhistory",(req,res)=>{
     let q =`select * from  buynow`;
   try{
@@ -166,7 +166,7 @@ app.get ("/orderhistory",(req,res)=>{
 }
 });
 
- 
+ //cancel odr
 app.delete ("/order/:id",(req,res)=>{
     let {id}=req.params;
     console.log(id);
