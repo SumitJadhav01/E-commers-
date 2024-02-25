@@ -2,19 +2,24 @@
 
 <body>
   <%- include("includes/navbar.ejs") %>
-    <form action="/Cart" method="post">
+  
+      
   <div class="card mb-3" style="max-width: 540px;">
     <div class="row g-0">
       <div class="col-md-4">
-        <img src="<%= data.decs %>" class="img-fluid rounded-start" alt="img">
+        <img src="<%= data[0].decs %>" class="img-fluid rounded-start" alt="img">
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h5 class="card-title"><%= data.title %></h5>
-          <p class="card-text"><%= data.image %></p>
-          <p class="card-text"><b><%= data.price %></b></p>
+          <h5 class="card-title"><%= data[0].title %></h5>
+          <p class="card-text"><%= data[0].image %></p>
+          <p class="card-text">&#8377; <b><%= data[0].price.toLocaleString("en-IN") %></b></p>
           <p class="card-text">product Availability : <%= data.avb %></p>
-          <input type="text">
+      <form action="/add-to-Cart" method="post">
+          <input type="hidden" name="title" value="<%= data[0].title %>">
+          <input type="hidden" name="Amount" value="<%= data[0].price %>">
+          <input type="hidden" name="productID" value="<%= data[0].id %>">
+
           <button type="submit" class="btn btn-primary" value="submit">Add to cart</button>
         </form>
           <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>

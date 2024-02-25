@@ -45,6 +45,12 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
 
+app.use((req,res,next)=>{
+    req.time = new Date(Date.now());
+    console.log(req.method, req.hostname ,req.path, req.time);
+    next()
+})
+
 //Category
 app.get("/",(req,res)=>{
 let q =`select * from  productCategory`;
@@ -86,7 +92,7 @@ app.get("/ProductDetails/:id",(req,res)=>{
     try{
         connection.query(q ,(err,result)=>{
             if (err) throw err;
-            let data =result[0];
+            let data = result;
             console.log(data);
             res.render("ProductDetails.ejs",{data})
       });
@@ -96,9 +102,24 @@ app.get("/ProductDetails/:id",(req,res)=>{
     }
    
 });
-app.post("/Cart",(req,res)=>{
-    let {id}=req.body;
-    console.log(id);
+app.post("/add-to-Cart",(req,res)=>{
+    let {title , Amount, productID}=req.body;
+    console.log(title , Amount, productID);
+        let q = "insert into addcart (product,Amount,Total,productID) values (?,?,?,?)";
+    let val = [title , Amount, Amount, productID];
+    try {
+        connection.query(q, val, (err, result) => {
+            if (err) throw err;
+            console.log(result)
+            res.redirect("/");
+        })
+    } catch (err) {
+        {
+            res.send("error");
+            res.send(err);
+        }
+    }
+
     res.render("cart")
  
 });
