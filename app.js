@@ -81,7 +81,7 @@ app.get("/ProductDetails/:id",(req,res)=>{
 app.delete ("/cart/:id",(req,res)=>{
     let {id}=req.params;
     console.log(id);
-      let q = `DELETE from addcart where productID ='${id}'`;
+      let q = `DELETE from addcart where productID ='${id}' limit 1`;
   try{
     connection.query(q ,(err,result)=>{
         if (err) throw err;
@@ -120,7 +120,7 @@ app.post("/add-to-Cart",(req,res)=>{
         connection.query(q, val, (err, result) => {
             if (err) throw err;
             // console.log(result)
-            res.redirect("/Category");
+            res.redirect("/Cart");
         })
     } catch (err) {
         {
@@ -170,7 +170,7 @@ app.get ("/orderhistory",(req,res)=>{
 app.delete ("/order/:id",(req,res)=>{
     let {id}=req.params;
     console.log(id);
-      let q = `DELETE from buynow where productID ='${id}'`;
+      let q = `DELETE from buynow where productID ='${id}'limit 1`;
   try{
     connection.query(q ,(err,result)=>{
         if (err) throw err;

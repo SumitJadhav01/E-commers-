@@ -1,8 +1,14 @@
+
 <%- include("includes/head.ejs") %>
 <body>
   <%- include("includes/navbar.ejs") %>
 
 <h3>Your Cart </h3>
+
+<form action="/Category">
+  <button type="submit" class="btn btn-primary auto ">continue Shoping</button>
+</form>
+
   <table class="table">
     <thead>
       <tr>
@@ -41,7 +47,7 @@
 
   </table>
 <form action="/orderhistory">
-  <button type="submit" class="btn btn-primary mx-auto p-2">checkout</button>
+  <button type="submit" class="btn btn-primary mx-auto p-2">check buy product</button>
 </form>
 
 <%- include("includes/footer.ejs") %>
