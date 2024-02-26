@@ -3,17 +3,52 @@
 <body>
   <%- include("includes/navbar.ejs") %>
 
-  <div class="mb-3">
-    <input class="form-control" type="text" placeholder="Default input" aria-label="default input example">
-    <input class="form-control" type="text" placeholder="Default input" aria-label="default input example">
-    <label for="exampleFormControlInput1" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-    <label for="inputPassword5" class="form-label">Password</label>
-<input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock">
-<div id="passwordHelpBlock" class="form-text">
-  Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
-</div>
+  <div class="row mt-3">
+    <h1 class="col-6 offset-3">Singup Now</h1>
+  
+    <div class="col-6 offset-3">
+      <form action="/register" method="post" class="needs-validation" novalidate>
+        <div class="mb-3">
+          <label for="username" class="form-lable">username:</label>
+          <input
+            type="text"
+            id="username"
+            placeholder=" Add a username"
+            name="username"
+            class="form-control"
+            required
+          />
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-lable">Email :</label>
+          <input
+            type="text"
+            id="email"
+            placeholder=" Add a email"
+            name="email"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">
+            Please inter valid Email!
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-lable">Password :</label>
+          <input
+            type="password"
+            id="password"
+            placeholder=" Add a password"
+            name="password"
+            class="form-control"
+            required
+          />
+        </div>
+        <button class="btn btn-success">Singup</button>
+      </form>
+    </div>
   </div>
   <%- include("includes/footer.ejs") %>
-
+<script src="script.js"></script>
 </body>
