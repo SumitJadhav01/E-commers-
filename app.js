@@ -46,11 +46,12 @@ const validuser =(req,res,next)=>{
 };
 
 //Category
-app.get("/Category",wrapAsync(async(req,res )=>{
+app.get("/",wrapAsync(async(req,res )=>{
 let q =`select * from  productCategory`;
      connection.query(q ,(err,result)=>{
         if (err) throw err;
         let data =result;
+        // console.log(result)
         res.render("Category.ejs",{data})
   });
  
@@ -77,7 +78,7 @@ app.get("/ProductDetails/:id",wrapAsync(async(req,res)=>{
         connection.query(q ,(err,result)=>{
             if (err) throw err;
             let data = result;
-            console.log(data);
+            // console.log(data);
             res.render("ProductDetails.ejs",{data})
       });
    
@@ -91,7 +92,7 @@ app.delete ("/cart/:id",wrapAsync(async(req,res)=>{
  
     connection.query(q ,(err,result)=>{
         if (err) throw err;
-        console.log(result);
+        // console.log(result);
         res.redirect("/cart");
   });
  
@@ -134,7 +135,7 @@ app.post("/product/:id/buynow",wrapAsync(async(req,res)=>{
  
         connection.query(q, val, (err, result) => {
             if (err) throw err;
-             console.log(result);
+            //  console.log(result);
             res.redirect("/cart");
         })
      
@@ -162,7 +163,7 @@ app.delete ("/order/:id",wrapAsync(async(req,res)=>{
   
     connection.query(q ,(err,result)=>{
         if (err) throw err;
-        console.log(result);
+        // console.log(result);
         res.redirect("/orderhistory");
   });
  
@@ -186,13 +187,13 @@ wrapAsync(async(req,res,next)=>{
                 let val = [username,email,password];
                     connection.query(q, val, (err, result) => {
                         if (err) throw err;
-                        console.log(result);
-                        res.redirect("/Category");
+                        // console.log(result);
+                        res.redirect("/");
                     });
             }           
       )
     
-    );
+);
 
 
 app.get("/render/login",(req,res)=>{
@@ -204,7 +205,7 @@ app.post("/login",(req,res)=>{
         let q =`select * from  user where name= '${username}'`;
         connection.query(q ,(err,result)=>{
             if (err) throw err;
-            res.redirect("/Category");
+            res.redirect("/");
  })});
 
 
@@ -221,15 +222,3 @@ app.use((err ,req, res , next)=>{
 app.listen(8080,()=>{
     console.log(`start server...;`)
 })
-
-
- 
-// {
-//     let q =`select * from  user where name= '${username}'`;
-
-//     connection.query(q ,(err,result)=>{
-//         if (err) throw err;
-//         let val = result[0];
-//         if(username == (val.name) || email==val.email){
-//             next(new ExpressErorr(500,"Email and username alredy exist! "));
-//         }else{

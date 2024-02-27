@@ -1,45 +1,25 @@
-<%- include("includes/head.ejs") %>
-
-<body>
-  <%- include("includes/navbar.ejs") %>
-  
-      
-  <div class="card mb-3" style="max-width: 540px;">
-    <div class="row g-0">
-      <div class="col-md-4">
-        <img src="<%= data[0].decs %>" class="img-fluid rounded-start" alt="img">
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title"><%= data[0].title %></h5>
-          <p class="card-text"><%= data[0].image %></p>
-          <p class="card-text">&#8377; <b><%= data[0].price.toLocaleString("en-IN") %></b></p>
-          <p class="card-text">product Availability : <%= data.avb %></p>
-      <form action="/add-to-Cart" method="post">
-          <input type="hidden" name="title" value="<%= data[0].title %>">
-          <input type="hidden" name="Amount" value="<%= data[0].price %>">
-          <input type="hidden" name="productID" value="<%= data[0].id %>">
-
-          <button type="submit" class="btn btn-primary" value="submit">Add to cart</button>
-        </form>
-          <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-        </div>
+<% layout("/boilerplate/boilerplate.ejs") %>
+<body> 
+  <div class="row mt-5 mb-5">
+    <div class="col-8 offset-3">
+      <div class="card mb-3" style="max-width: 540px;">
+            <img src="<%= data[0].decs %>" class="img-fluid rounded-start card-img-top" alt="img"  style="height:20rem">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title"><%= data[0].title %></h5>
+              <p class="card-text"><%= data[0].image %></p>
+              <p class="card-text">&#8377; <b><%= data[0].price.toLocaleString("en-IN") %></b></p>
+              <p class="card-text">product Availability : <%= data[0].avb %></p>
+          <form action="/add-to-Cart" method="post">
+              <input type="hidden" name="title" value="<%= data[0].title %>">
+              <input type="hidden" name="Amount" value="<%= data[0].price %>">
+              <input type="hidden" name="productID" value="<%= data[0].id %>">
+              <button type="submit" class="btn btn-primary" value="submit">Add to cart</button>
+            </form>
+              <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            </div>
       </div>
     </div>
-  </div>
-      <%- include("includes/footer.ejs") %>
-
+  </div>  
 </body>
-<!--  
-
-<form method="post" action="/user/post">
-  <label for="fname">Enter username:</label><br>
-  <input type="text" id="fname" name="username"><br>
-  <label for="fname">Enter userid:</label><br>
-  <input type="text" id="fname" name="userid"><br>
-  <label for="lname">Enter email:</label><br>
-  <input type="email" id="lname" name="email"><br><br>
-  <label for="lname">Enter password:</label><br>
-  <input type="password" id="lname" name="password"><br><br>
-  <input type="submit" value="Submit">
-</form>  -->

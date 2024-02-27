@@ -1,25 +1,16 @@
- 
+<% layout("/boilerplate/boilerplate.ejs") %>
 
-<%- include("includes/head.ejs") %>
-
-<body>
-  <%- include("includes/navbar.ejs") %>
-  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mx-auto p-5 ">
+   <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mx-auto p-5 ">
     <% for(let product of data) { %>
- 
           <div class="card col"  >
             <img src="<%= product.decs %>" class="card-img-top" alt="image" style="height:20rem">
-            <div class="card-body">
+            <div class="card-body card col">
               <h5 class="card-title"><%= product.title %></h5>
-              <p class="card-text"><%= product.image %></p>
+              <p class="card-text" style="height: 4rem;"><%= product.image %></p>
               <p><b>&#8377; <%= product.price.toLocaleString("en-IN") %></b></p>
               <a href="/ProductDetails/<%= product.id %>" class="btn btn-primary">See More Details</a>
             </div>
           </div>
-     
     <% } %>
     </div>
- 
-      <%- include("includes/footer.ejs") %>
 
-</body>
